@@ -12,6 +12,7 @@ class Admin(models.Model):  # 관리자
 
 class Car(models.Model):  # 차
     car_num = models.CharField('번호판', max_length=15, unique=True)  # 차 번호는 유일하다.
+    car_image = models.ImageField(upload_to="images/",unique=True)
 
     class Meta:
         db_table = 'Car'  # 테이블 명
