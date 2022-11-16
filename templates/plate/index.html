@@ -1,5 +1,5 @@
 {% load plate_filter %}
-{% load static %}
+{% load static %} <!-- static 정적 파일을 관리하기 위해 필요함 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -28,6 +28,8 @@
             <li style="border-bottom:2px solid gray;">전송된 건수</li>
         </ul>
     </nav><!--//nav-->
+
+    <!-- 시민 정보 -->
     <div id="info">
         <ul>
             <li><span>번호판  </span> <span>14노 8695</span></li>
@@ -38,13 +40,15 @@
             <li><span>정확도  </span> <span>0.98</span></li>
         </ul>
     </div><!--//info-->
-    <div id="photo">
+
+    <div id="photo"> <!-- 차량 정보 -->
         {% if car_list %}
         {% for car in car_list %}
         <div class="img"><img src="{{ car.car_image.url}}"></div> <!-- 이미지 -->
         {% endfor %}
         {% endif %}
 
+        <!-- 페이징 처리 부분 -->
         <div id="photo_control">
             {% if car_list.has_previous %}
             <a href="?page={{car_list.previous_page_number}}">
@@ -68,6 +72,8 @@
             </a>
             {% endif %}
         </div>
+          <!-- 페이징 처리 끝 -->
+
     </div><!--//photo-->
 
         <a class="register" style="outline:0px;" href="{% url 'plate:plate_create' %}"> <!-- url 별칭을 활용한 차량 등록 -->
