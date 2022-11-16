@@ -1,5 +1,5 @@
 {% load plate_filter %}
-{% load static %} <!-- static 정적 파일을 관리하기 위해 필요함 -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -23,9 +23,11 @@
 <main>
     <nav id="nav">
         <ul>
-            <li style="border-top:2px solid gray;">총 건수</li>
-            <li>보류된 건수</li>
-            <li style="border-bottom:2px solid gray;">전송된 건수</li>
+            <li style="border-top:2px solid gray;">미처리 건수:&emsp;<b>{{ car_list.paginator.count }}</b></li>
+            <li>검출한 건수:&emsp;</li>
+            {% for ad in admin %}
+            <li style="border-bottom:2px solid gray;">보류한 건수:&emsp;<b>{{ ad.a_wh }}</b></li>
+            {% endfor %}
         </ul>
     </nav><!--//nav-->
 
@@ -47,7 +49,6 @@
         <div class="img"><img src="{{ car.car_image.url}}"></div> <!-- 이미지 -->
         {% endfor %}
         {% endif %}
-
         <!-- 페이징 처리 부분 -->
         <div id="photo_control">
             {% if car_list.has_previous %}
@@ -62,6 +63,14 @@
 
             {% endif %}
 
+                <a style="color:orange; font-size:1.2vw; vertical-align:bottom;"
+                   href="?page={{ car_list.start_index}}">{{ car_list.start_index }}</a> <!-- 현재 페이지 번호 -->
+
+                &nbsp;<span style="color:skyblue; font-size:1.2vw; vertical-align:bottom;">/</span>&nbsp;
+
+                <a style="color:orange; font-size:1.2vw; vertical-align:bottom;"
+                   href="?page={{ car_list.paginator.count }}">{{ car_list.paginator.count }}</a> <!-- 전체 페이지 개수 -->
+
             {% if car_list.has_next %}
             <a href="?page={{car_list.next_page_number}}">
                 <button type="button">></button>
@@ -71,22 +80,49 @@
                 <button type="button">></button>
             </a>
             {% endif %}
+
+
         </div>
           <!-- 페이징 처리 끝 -->
 
     </div><!--//photo-->
 
-        <a class="register" style="outline:0px;" href="{% url 'plate:plate_create' %}"> <!-- url 별칭을 활용한 차량 등록 -->
-            <button style="outline:0px;">새 차량등록</button>
+        <a class="register" href="{% url 'plate:plate_create' %}"> <!-- url 별칭을 활용한 차량 등록 -->
+            <button><b>새 차량등록</b></button>
+        </a>
+        <a class="detect" href="{% url 'plate:index' %}"> <!-- url 별칭을 활용한 번호 검출 -->
+            <button><b>번호판 검출</b></button>
         </a>
 
-        <a class="detect" style="outline:0px;" href="{% url 'plate:index' %}"> <!-- url 별칭을 활용한 번호 검출 -->
-            <button style="outline:0px;">번호판 검출</button>
+    {% if car_list %} <!-- 차가 있을 때만 보류 표시 -->
+        {% for car in car_list %}
+            {% for ad in admin %}
+        <a class="delete withhold" href="javascript:void(0)"
+        data-uri="{% url 'plate:plate_withhold' car.id ad.a_id %}"> <!-- url 별칭을 활용한 번호 보류 -->
+            <button><b>번호판 보류</b></button>
         </a>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+
 </main>
 
 <footer>
-    <p>ⓒCopyright 2022. CP949 All Rights Reserved.</p>
+    <p>ⓒCopyright 2022. <b>CP949</b> All Rights Reserved.</p>
 </footer>
+
+{% block script %}
+<script type='text/javascript'>
+const delete_elements = document.getElementsByClassName("delete");
+Array.from(delete_elements).forEach(function(element) {
+    element.addEventListener('click', function() {
+        if(confirm("정말로 보류하시겠습니까?")) {
+            location.href = this.dataset.uri;
+        };
+    });
+});
+</script>
+{% endblock %}
+
 </body>
 </html>

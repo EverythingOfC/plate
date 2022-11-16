@@ -5,6 +5,8 @@ class Admin(models.Model):  # 관리자
     a_name = models.CharField('관리자', max_length=15)  # 글자수 제한 있는 varchar 자료형
     a_id = models.CharField('아이디', max_length=15, primary_key=True)  # 기본 키
     a_pw = models.CharField('비밀번호', max_length=15)
+    a_de = models.IntegerField('검출한 수', default=0)
+    a_wh = models.IntegerField('보류한 수',default=0)
 
     class Meta:
         db_table = 'Admin'  # 테이블 명
