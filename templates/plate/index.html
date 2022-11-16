@@ -1,15 +1,86 @@
-{% extends 'base.html' %}
-{% block content %}
-<div class="container">
-    {% if car_list %}
+{% load plate_filter %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <link href="{% static 'reset.css' %}" rel="stylesheet">
+    <link href="{% static 'style.css' %}" rel="stylesheet">
+    <title>Hello, plate</title>
+</head>
+<body style="font-family:'LeeSeoyun'!important;">
+
+<header>
+    <div id="logo"><img src="/static/image/cp949.png"></div>
+    <div id="blank">&nbsp;</div>
+    <div id="site_title"><a href="{% url 'plate:index' %}">CP 949</a></div>
+    <div id="login"><a href="#">로그인</a></div>
+</header>
+<div style="clear:both"></div>
+<main>
+    <nav id="nav">
+        <ul>
+            <li style="border-top:2px solid gray;">총 건수</li>
+            <li>보류된 건수</li>
+            <li style="border-bottom:2px solid gray;">전송된 건수</li>
+        </ul>
+    </nav><!--//nav-->
+    <div id="info">
+        <ul>
+            <li><span>번호판  </span> <span>05바 8132</span></li>
+            <li><span>차주  </span> <span>서성준</span></li>
+            <li><span>단속횟수  </span> <span> 0회</span></li>
+            <li><span>연락처  </span> <span>010-2583-3226</span></li>
+            <li><span>거주지  </span> <span>서울시 동작구 흑석동</span></li>
+            <li><span>정확도  </span> <span>0.93</span></li>
+        </ul>
+    </div><!--//info-->
+    <div id="photo">
+        {% if car_list %}
         {% for car in car_list %}
-          <img src="{{car.car_image.url}}"><br>
+        <div class="img"><img src="{{ car.car_image.url}}"></div>
         {% endfor %}
+        {% endif %}
 
-    {% else %}
-    <p>질문이 없습니다.</p>
-    {% endif %}
+        <div id="photo_control">
+            {% if car_list.has_previous %}
+            <a href="?page={{car_list.previous_page_number}}">
+                <button type="button"><</button>
+            </a>
 
-</div>
-{% endblock %}
+            {% else %}
+            <a href="#" tabindex="-1" aria-disabled="true">
+                <button type="button"><</button>
+            </a>
+
+            {% endif %}
+
+            {% if car_list.has_next %}
+            <a href="?page={{car_list.next_page_number}}">
+                <button type="button">></button>
+            </a>
+            {% else %}
+            <a href="#" tabindex="-1" aria-disabled="true">
+                <button type="button">></button>
+            </a>
+            {% endif %}
+        </div>
+    </div><!--//photo-->
+
+        <a class="register" style="outline:0px;" href="{% url 'plate:plate_create' %}">
+            <button style="outline:0px;">새 차량등록</button>
+        </a>
+
+        <a class="detect" style="outline:0px;" href="{% url 'plate:index' %}">
+            <button style="outline:0px;">번호판 검출</button>
+        </a>
+</main>
+
+<footer>
+    <p>ⓒCopyright 2022. CP949 All Rights Reserved.</p>
+</footer>
+</body>
+</html>
