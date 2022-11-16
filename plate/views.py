@@ -6,7 +6,6 @@ from django.utils import timezone
 # Create your views here.
 
 
-
 def index(request): # 기본 페이지
   page = request.GET.get('page', '1')  # 페이지
   car_list = Car.objects.order_by('car_num')
@@ -17,16 +16,16 @@ def index(request): # 기본 페이지
 
 
 def plate_create(request): # 차 등록
-  if request.method == 'POST':
-    car = Car()
-    car.car_num = request.POST['car_num'] # 차 번호
-    car.car_image = request.FILES['car_image'] # 차 이미지
+  if request.method == 'POST':  # 저장하기 눌렀을 때
+    car = Car() # Car모델 객체 생성
+    car.car_num = request.POST['car_num']  # 차 번호
+    car.car_image = request.FILES['car_image']  # 차 이미지
 
     car.save()
-    return redirect('plate:index')  # 메인 페이지
+    return redirect('plate:index')  # 메인 페이지(정보를 그대로 전송)
 
-  else:
+  else: # a태그에서 이동한 Get방식
     form = CarForm()
   context = {'form': form}
-  return render(request, 'plate/form.html', context) # 폼 페이지
+  return render(request, 'plate/form.html', context)  # 폼 페이지
 

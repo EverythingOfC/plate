@@ -30,18 +30,18 @@
     </nav><!--//nav-->
     <div id="info">
         <ul>
-            <li><span>번호판  </span> <span>05바 8132</span></li>
+            <li><span>번호판  </span> <span>14노 8695</span></li>
             <li><span>차주  </span> <span>서성준</span></li>
             <li><span>단속횟수  </span> <span> 0회</span></li>
             <li><span>연락처  </span> <span>010-2583-3226</span></li>
             <li><span>거주지  </span> <span>서울시 동작구 흑석동</span></li>
-            <li><span>정확도  </span> <span>0.93</span></li>
+            <li><span>정확도  </span> <span>0.98</span></li>
         </ul>
     </div><!--//info-->
     <div id="photo">
         {% if car_list %}
         {% for car in car_list %}
-        <div class="img"><img src="{{ car.car_image.url}}"></div>
+        <div class="img"><img src="{{ car.car_image.url}}"></div> <!-- 이미지 -->
         {% endfor %}
         {% endif %}
 
@@ -70,11 +70,11 @@
         </div>
     </div><!--//photo-->
 
-        <a class="register" style="outline:0px;" href="{% url 'plate:plate_create' %}">
+        <a class="register" style="outline:0px;" href="{% url 'plate:plate_create' %}"> <!-- url 별칭을 활용한 차량 등록 -->
             <button style="outline:0px;">새 차량등록</button>
         </a>
 
-        <a class="detect" style="outline:0px;" href="{% url 'plate:index' %}">
+        <a class="detect" style="outline:0px;" href="{% url 'plate:index' %}"> <!-- url 별칭을 활용한 번호 검출 -->
             <button style="outline:0px;">번호판 검출</button>
         </a>
 </main>
