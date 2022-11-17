@@ -17,12 +17,7 @@
     <div id="logo"><img src="/static/image/cp949.png"></div>
     <div id="blank">&nbsp;</div>
     <div id="site_title"><a href="{% url 'plate:index' %}">CP 949</a></div>
-    {% if user.is_authenticated %}
-         <div class="login"><a href="{% url 'common:logout' %}">(로그아웃)</a></div>
-    {% else %}
-         <div class="login"><a href="{% url 'common:login' %}">로그인</a></div>
-    {% endif %}
-
+    <div id="login"><a href="#">로그인</a></div>
 </header>
 <div style="clear:both"></div>
 <main>
@@ -30,19 +25,9 @@
         <ul>
             <li style="border-top:2px solid gray;">미처리 건수:&emsp;<b>{{ car_list.paginator.count }}</b></li>
             <li>검출한 건수:&emsp;</li>
-
             {% for ad in admin %}
-                {% if ad.a_wh == 0 %}
-                <li style="border-bottom:2px solid gray;">보류한 건수:&emsp;<b>0</b></li>
-
-                {% else %}
-                <li style="border-bottom:2px solid gray;">보류한 건수:&emsp;<b>{{ ad.a_wh }}</b></li>
-
-                {% endif %}
+            <li style="border-bottom:2px solid gray;">보류한 건수:&emsp;<b>{{ ad.a_wh }}</b></li>
             {% endfor %}
-
-
-
         </ul>
     </nav><!--//nav-->
 
@@ -103,7 +88,7 @@
     </div><!--//photo-->
 
         <a class="register" href="{% url 'plate:plate_create' %}"> <!-- url 별칭을 활용한 차량 등록 -->
-            <button><b>번호판 등록</b></button>
+            <button><b>새 차량등록</b></button>
         </a>
         <a class="detect" href="{% url 'plate:index' %}"> <!-- url 별칭을 활용한 번호 검출 -->
             <button><b>번호판 검출</b></button>

@@ -31,17 +31,17 @@ header #site_title{
     float:left;
 }
 
-header .login{
+header #login{
     text-align:center;
     margin-top:0.5vw;
-    font-size:1.3vw;
+    font-size:1.8vw;
 }
-header .login a{
+header #login a{
     padding:8px;
     border-radius:10px;
 }
 
-header .login a:hover{
+header #login a:hover{
     color:#d8dee3;
 }
 
@@ -162,7 +162,7 @@ main #photo #photo_control button{
 
 .register{
     position:absolute;
-    bottom:15%;
+    bottom:17%;
     left:50%;
 }
 .register button,.detect button,.withhold button{
@@ -174,13 +174,13 @@ main #photo #photo_control button{
 }
 .detect{
     position:absolute;
-    bottom:15%;
+    bottom:17%;
     left:58%;
 }
 .withhold{
     position:absolute;
-    bottom:15%;
-    left:66%;
+    bottom:17%;
+    left:65.75%;
 }
 
 .register button:hover,.detect button:hover,.withhold button:hover{

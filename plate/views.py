@@ -1,7 +1,7 @@
 from .models import Car,Admin
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404,redirect
-from .forms import CarForm,AdminForm
+from .forms import CarForm
 # Create your views here.
 
 
@@ -40,5 +40,3 @@ def plate_withhold(request, car_id, a_id):  # 차 보류
   car.delete()
   admin.save()
   return redirect('plate:index')  # 삭제 후, 메인페이지로 돌아감.
-
-

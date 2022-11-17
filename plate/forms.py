@@ -11,4 +11,4 @@ class CarForm(forms.ModelForm):
 class AdminForm(forms.ModelForm):
     class Meta:
         model = Admin
-        fields = {'a_id','a_pw','a_de','a_wh'}  # AdminForm에서 사용할 Admin 모델의 속성
+        fields = {'a_de','a_wh'}  # AdminForm에서 사용할 Admin 모델의 속성
