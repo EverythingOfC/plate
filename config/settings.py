@@ -32,11 +32,11 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'common.apps.CommonConfig',  # 로그인 처리를 위함
     'plate.apps.PlateConfig',
-    'common.apps.CommonConfig',
-    'pybo.apps.PyboConfig',
+    'django_cleanup.apps.CleanupConfig',  # 이미지 자동 삭제를 위함
     'django.contrib.admin',
-    'django.contrib.auth',
+    'django.contrib.auth',  # 장고 로그인, 로그아웃
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',

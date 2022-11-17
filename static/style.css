@@ -31,17 +31,17 @@ header #site_title{
     float:left;
 }
 
-header #login{
+header .login{
     text-align:center;
     margin-top:0.5vw;
-    font-size:1.8vw;
+    font-size:1.3vw;
 }
-header #login a{
+header .login a{
     padding:8px;
     border-radius:10px;
 }
 
-header #login a:hover{
+header .login a:hover{
     color:#d8dee3;
 }
 
@@ -145,9 +145,11 @@ main #photo #photo_btn button{
     border-radius: 3vw;
     border:1px solid #333;
 }
+
 main #photo #photo_btn button:hover{
     background-color: rgba(255,255,255,.8);
 }
+
 main #photo #photo_control{
     position:absolute;
     bottom:.3vw;
@@ -160,10 +162,10 @@ main #photo #photo_control button{
 
 .register{
     position:absolute;
-    bottom:13%;
+    bottom:15%;
     left:50%;
 }
-.register button,.detect button{
+.register button,.detect button,.withhold button{
     padding:1vw;
     font-size:1.3vw;
     cursor:pointer;
@@ -172,10 +174,16 @@ main #photo #photo_control button{
 }
 .detect{
     position:absolute;
-    bottom:13%;
-    left:59%;
+    bottom:15%;
+    left:58%;
 }
-.register button:hover,.detect button:hover{
+.withhold{
+    position:absolute;
+    bottom:15%;
+    left:66%;
+}
+
+.register button:hover,.detect button:hover,.withhold button:hover{
     background-color : #cdcecf;
 }
 footer{

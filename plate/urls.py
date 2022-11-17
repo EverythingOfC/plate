@@ -8,4 +8,5 @@ app_name = 'plate'
 urlpatterns = [
     path('',views.index,name='index'),
     path('create/', views.plate_create, name='plate_create'),
+    path('withhold/<int:car_id>/<str:a_id>', views.plate_withhold,name='plate_withhold'),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
