@@ -9,5 +9,5 @@ urlpatterns = [
     path('',views.index,name='index'),
     path('create/', views.plate_create, name='plate_create'),
     path('withhold/<int:car_id>/<str:a_id>', views.plate_withhold,name='plate_withhold'),
-    path('start/',views.plate_start,name='start')
+    path('start/<str:a_id>',views.plate_start,name='start')
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

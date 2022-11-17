@@ -25,14 +25,14 @@ def plate_create(request):  # 차 등록
     car = Car()  #  Car모델 객체 생성
     car.car_num = request.POST['car_num']  # 차 번호
     car.car_image = request.FILES['car_image']  # 차 이미지
-    car_no = request.FILES['car_image']
 
     car.save()  # 차 저장
     return redirect('plate:index')  # 메인 페이지(정보를 그대로 전송)
 
   else:  # a 태그에서 이동한 Get 방식
     form = CarForm()
-  context = {'form': form}
+  admin = Admin.objects.filter(a_id='tkflwk23')
+  context = {'form': form,'admin': admin}
   return render(request, 'plate/form.html', context)  # 폼 페이지
 
 
@@ -45,14 +45,20 @@ def plate_withhold(request, car_id, a_id):  # 차 보류
   admin.save()
   return redirect('plate:index')  # 삭제 후, 메인페이지로 돌아감.
 
-def plate_start(request):
+
+def plate_start(request,a_id):  # 번호판 검출 ( 저장하기 누르면 )
   car = Car()  # Car모델 객체 생성
   car.car_num = request.POST['car_num']
   car.car_image = request.FILES['car_image']
-  car_no = request.FILES['car_image']
+  car_no = request.FILES['car_image']  # car image를 넘김
   print(car_no)
-  car.save()
-  classify_number.start(car_no)
+
+  admin = get_object_or_404(Admin, pk=a_id)  # 관리자 모델 객체 생성
+  if classify_number.start(car_no)[1] != -1:  # 검출 성공 시
+    admin.a_de += 1  # 검출 횟수 1증가
+    car.car_check = 1  # 검출 완료된 이미지로 변경
+    admin.save()
+    car.save()
   if car.car_num == request.POST['car_num']:
     car.car_image = "images/r_%s" %car_no
     car.save()
