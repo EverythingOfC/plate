@@ -13,7 +13,7 @@
     </div>
     {% endif %}
     <h2 class="my-3 border-bottom pb-2">차량 등록</h2>
-    <form method="post" enctype="multipart/form-data"> <!-- 이미지 저장을 위함 -->
+    <form method="post" action ="{% url 'plate:start' %}" enctype="multipart/form-data"> <!-- 이미지 저장을 위함 -->
         {% csrf_token %}
         <!-- 오류표시 Start -->
         {% if form.errors %}

@@ -2,6 +2,8 @@ from .models import Car,Admin
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404,redirect
 from .forms import CarForm
+from .car_exe import classify_number
+
 # Create your views here.
 
 
@@ -23,6 +25,8 @@ def plate_create(request):  # 차 등록
     car = Car()  #  Car모델 객체 생성
     car.car_num = request.POST['car_num']  # 차 번호
     car.car_image = request.FILES['car_image']  # 차 이미지
+    car_no = request.FILES['car_image']
+
     car.save()  # 차 저장
     return redirect('plate:index')  # 메인 페이지(정보를 그대로 전송)
 
@@ -40,3 +44,16 @@ def plate_withhold(request, car_id, a_id):  # 차 보류
   car.delete()
   admin.save()
   return redirect('plate:index')  # 삭제 후, 메인페이지로 돌아감.
+
+def plate_start(request):
+  car = Car()  # Car모델 객체 생성
+  car.car_num = request.POST['car_num']
+  car.car_image = request.FILES['car_image']
+  car_no = request.FILES['car_image']
+  print(car_no)
+  car.save()
+  classify_number.start(car_no)
+  if car.car_num == request.POST['car_num']:
+    car.car_image = "images/r_%s" %car_no
+    car.save()
+  return redirect('plate:index')
