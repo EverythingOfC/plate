@@ -23,11 +23,13 @@
 <main>
     <nav id="nav">
         <ul>
-            <li style="border-top:2px solid gray;">미처리 건수&emsp;<span style="color:red"><b>{{ car_list.paginator.count }}</b></span></li>
+            <li style="border-top:2px solid gray;">미처리 건수&emsp;<span
+                    style="color:red"><b>{{ car_list.paginator.count }}</b></span></li>
             {% for ad in admin %}
             <li>검출한 건수&emsp;<b>{{ ad.a_de }}</b></li>
             <li>보류한 건수&emsp;<b>{{ ad.a_wh }}</b></li>
-            <li style="border-bottom:2px solid gray;">총 건수&emsp;&emsp;&nbsp;<span style="color:skyblue"><b>{{ car_list.paginator.count|add:ad.a_de|add:ad.a_wh }}</b></span></li>
+            <li style="border-bottom:2px solid gray;">총 건수&emsp;&emsp;&nbsp;<span style="color:skyblue"><b>{{ car_list.paginator.count|add:ad.a_de|add:ad.a_wh }}</b></span>
+            </li>
             {% endfor %}                                                            <!-- 총 개수 -->
         </ul>
     </nav><!--//nav-->
@@ -64,13 +66,13 @@
 
             {% endif %}
 
-                <a style="color:orange; font-size:1.2vw; vertical-align:bottom;"
-                   href="?page={{ car_list.start_index}}">{{ car_list.start_index }}</a> <!-- 현재 페이지 번호 -->
+            <a style="color:orange; font-size:1.2vw; vertical-align:bottom;"
+               href="?page={{ car_list.start_index}}">{{ car_list.start_index }}</a> <!-- 현재 페이지 번호 -->
 
-                &nbsp;<span style="color:skyblue; font-size:1.2vw; vertical-align:bottom;">/</span>&nbsp;
+            &nbsp;<span style="color:skyblue; font-size:1.2vw; vertical-align:bottom;">/</span>&nbsp;
 
-                <a style="color:orange; font-size:1.2vw; vertical-align:bottom;"
-                   href="?page={{ car_list.paginator.count }}">{{ car_list.paginator.count }}</a> <!-- 전체 페이지 개수 -->
+            <a style="color:orange; font-size:1.2vw; vertical-align:bottom;"
+               href="?page={{ car_list.paginator.count }}">{{ car_list.paginator.count }}</a> <!-- 전체 페이지 개수 -->
 
             {% if car_list.has_next %}
             <a href="?page={{car_list.next_page_number}}">
@@ -84,24 +86,26 @@
 
 
         </div>
-          <!-- 페이징 처리 끝 -->
+        <!-- 페이징 처리 끝 -->
 
     </div><!--//photo-->
-        {% for ad in admin %}
-        <a class="register" href="{% url 'plate:plate_create' %}"> <!-- url 별칭을 활용한 차량 등록 -->
-            <button><b>새 차량등록</b></button>
-        </a>
-        {% endfor %}
+    {% for ad in admin %}
+    <a class="register" href="{% url 'plate:plate_create' %}"> <!-- url 별칭을 활용한 차량 등록 -->
+        <button><b>새 차량등록</b></button>
+    </a>
+    {% endfor %}
 
     {% if car_list %} <!-- 차가 있을 때만 보류 표시 -->
-        {% for car in car_list %}
-            {% for ad in admin %}
-        <a class="delete withhold" href="javascript:void(0)"
-        data-uri="{% url 'plate:plate_withhold' car.id ad.a_id %}"> <!-- url 별칭을 활용한 번호 보류 -->
-            <button><b>번호판 보류</b></button>
-        </a>
-            {% endfor %}
-        {% endfor %}
+    {% for car in car_list %}
+    {% for ad in admin %}
+    {% if car.car_check == 0 %} <!-- 검출된 사진이 아닐 때 (번호판 보류)버튼 표시 -->
+    <a class="delete withhold" href="javascript:void(0)"
+       data-uri="{% url 'plate:plate_withhold' car.id ad.a_id %}"> <!-- url 별칭을 활용한 번호 보류 -->
+        <button><b>번호판 보류</b></button>
+    </a>
+    {% endif %}
+    {% endfor %}
+    {% endfor %}
     {% endif %}
 
 </main>
@@ -120,6 +124,7 @@ Array.from(delete_elements).forEach(function(element) {
         };
     });
 });
+
 </script>
 {% endblock %}
 

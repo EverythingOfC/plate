@@ -15,6 +15,7 @@
     {% for ad in admin %}
 
     <form method="post" action ="{% url 'plate:start' ad.a_id %}" enctype="multipart/form-data"> <!-- 이미지 저장을 위함 -->
+
         {% csrf_token %}
         <!-- 오류표시 Start -->
         {% if form.errors %}
@@ -45,6 +46,7 @@
         </div>
     </form>
     {% endfor %}
+
 </div>
 
 {% endblock %}

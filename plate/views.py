@@ -56,10 +56,10 @@ def plate_start(request,a_id):  # 번호판 검출 ( 저장하기 누르면 )
   admin = get_object_or_404(Admin, pk=a_id)  # 관리자 모델 객체 생성
   if classify_number.start(car_no)[1] != -1:  # 검출 성공 시
     admin.a_de += 1  # 검출 횟수 1증가
-    car.car_check = 1  # 검출 완료된 이미지로 변경
+    car.car_check = 1 # 검출 상태 1 ( 검출완료)
     admin.save()
-    car.save()
   if car.car_num == request.POST['car_num']:
     car.car_image = "images/r_%s" %car_no
-    car.save()
+
+  car.save()
   return redirect('plate:index')
