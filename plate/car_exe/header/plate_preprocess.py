@@ -1,7 +1,8 @@
 import numpy as np, cv2
 
 def preprocessing(car_no):
-    image = cv2.imread("images/car/%02d.jpg" %car_no, cv2.IMREAD_COLOR)
+    print(car_no)
+    image = cv2.imread("media/images/%s" %car_no, cv2.IMREAD_COLOR)
     if image is None: return None, None
 
     kernel = np.ones((5, 13), np.uint8)                          # 닫힘 연산 마스크
@@ -12,7 +13,7 @@ def preprocessing(car_no):
     th_img = cv2.threshold(gray, 120, 255, cv2.THRESH_BINARY)[1] # 이진화 수행
     morph = cv2.morphologyEx(th_img, cv2.MORPH_CLOSE,  kernel, iterations=3)
 
-    cv2.imshow("th_img", th_img); cv2.imshow("morph", morph)   #결과표시
+
     return image, morph
 
 def verify_aspect_size(size):

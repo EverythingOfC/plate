@@ -14,7 +14,9 @@ class Admin(models.Model):  # 관리자
 
 class Car(models.Model):  # 차
     car_num = models.CharField('번호판', max_length=15, unique=True)  # 차 번호는 유일하다.
-    car_image = models.ImageField(upload_to="images/",unique=True,default='default.jpg')
+    car_image = models.ImageField(upload_to="images/",unique=True,default='default.jpg')  # 차 이미지
+    car_check = models.IntegerField('검출 유무',default=0)  # 0이면 검출 안 됨, 1이면 검출됨
+    car_accur = models.FloatField('정확도',default=0.)  # 정확도
     class Meta:
         db_table = 'Car'  # 테이블 명
 
