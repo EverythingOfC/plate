@@ -22,9 +22,8 @@
 <div style="clear:both"></div>
 <main>
     <nav id="nav">
-        <ul>
-            <li style="border-top:2px solid gray;">미처리 건수&emsp;<span style="color:red"><b>{{ car_list.paginator.count }}</b></span></li>
-            {% for ad in admin %}
+        <ul>{% for ad in admin %}
+            <li style="border-top:2px solid gray;">미처리 건수&emsp;<span style="color:red"><b>{{ car_list.paginator.count|sub:ad.a_de }}</b></span></li>
             <li>검출한 건수&emsp;<b>{{ ad.a_de }}</b></li>
             <li>보류한 건수&emsp;<b>{{ ad.a_wh }}</b></li>
             <li style="border-bottom:2px solid gray;">총 건수&emsp;&emsp;&nbsp;<span style="color:skyblue"><b>{{ car_list.paginator.count|add:ad.a_de|add:ad.a_wh }}</b></span></li>
@@ -35,16 +34,20 @@
     <!-- 시민 정보 -->
     <div id="info">
         <ul>
-            <li><span>번호판  </span> <span>14노 8695</span></li>
-            <li><span>차주  </span> <span>서성준</span></li>
-            <li><span>단속횟수  </span> <span> 0회</span></li>
-            <li><span>연락처  </span> <span>010-2583-3226</span></li>
-            <li><span>거주지  </span> <span>서울시 동작구 흑석동</span></li>
-            <li><span>정확도  </span> <span>0.98</span></li>
+            {% for cit in citizen_list %}
+                {% for car in car_list %}
+                <li><span>번호판  </span> <span>{{ cit.c_num }}</span></li>
+                <li><span>차주  </span> <span>{{ cit.c_name}}</span></li>
+                <li><span>단속횟수  </span> <span>{{cit.c_count}}</span></li>
+                <li><span>연락처  </span> <span>{{cit.c_tel}}</span></li>
+                <li><span>거주지  </span> <span>{{cit.c_addr}}</span></li>
+                <li><span>정확도  </span> <span>{{car.accur}}</span></li>
+                {% endfor %}
+            {% endfor %}
         </ul>
     </div><!--//info-->
 
-    <div id="photo"> <!-- 차량 정보 -->
+    <div id="photo"> <!-- 시민의 차량 이미지 -->
         {% if car_list %}
         {% for car in car_list %}
         <div class="img"><img src="{{ car.car_image.url }}"></div> <!-- 이미지 -->
@@ -87,13 +90,13 @@
           <!-- 페이징 처리 끝 -->
 
     </div><!--//photo-->
-        {% for ad in admin %}
+
         <a class="register" href="{% url 'plate:plate_create' %}"> <!-- url 별칭을 활용한 차량 등록 -->
             <button><b>새 차량등록</b></button>
         </a>
-        {% endfor %}
 
-    {% if car_list %} <!-- 차가 있을 때만 보류 표시 -->
+
+    {% if citizen_list %} <!-- 차가 있을 때만 보류 표시 -->
         {% for car in car_list %}
             {% for ad in admin %}
         <a class="delete withhold" href="javascript:void(0)"

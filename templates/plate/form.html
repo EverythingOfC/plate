@@ -2,15 +2,7 @@
 {% load static %}
 {% block content %}
 <div style="font-family:'LeeSeoyun'!important;" class="container">
-    <!-- message 표시 -->
-    {% if messages %}
-    <div class="alert alert-danger my-3" role="alert">
-    {% for message in messages %}
-        <strong>{{ message.tags }}</strong>
-        <ul><li>{{ message.message }}</li></ul>
-    {% endfor %}
-    </div>
-    {% endif %}
+
     <h2 class="my-3 border-bottom pb-2">차량 등록</h2>
     {% for ad in admin %}
 
