@@ -26,7 +26,7 @@
             <li style="border-top:2px solid gray;">미처리 건수&emsp;<span style="color:red"><b>{{ car_list.paginator.count|sub:ad.a_de }}</b></span></li>
             <li>검출한 건수&emsp;<b>{{ ad.a_de }}</b></li>
             <li>보류한 건수&emsp;<b>{{ ad.a_wh }}</b></li>
-            <li style="border-bottom:2px solid gray;">총 건수&emsp;&emsp;&nbsp;<span style="color:skyblue"><b>{{ car_list.paginator.count|add:ad.a_de|add:ad.a_wh }}</b></span></li>
+            <li style="border-bottom:2px solid gray;">총 건수&emsp;&emsp;&nbsp; <span style="color:skyblue"><b>{{car_list.paginator.count|add:ad.a_wh}}</b></span></li>
             {% endfor %}                                                            <!-- 총 개수 -->
         </ul>
     </nav><!--//nav-->
@@ -34,14 +34,15 @@
     <!-- 시민 정보 -->
     <div id="info">
         <ul>
-            {% for cit in citizen_list %}
                 {% for car in car_list %}
+                    {% for cit in citizen_list %}
                 <li><span>번호판  </span> <span>{{ cit.c_num }}</span></li>
                 <li><span>차주  </span> <span>{{ cit.c_name}}</span></li>
                 <li><span>단속횟수  </span> <span>{{cit.c_count}}</span></li>
                 <li><span>연락처  </span> <span>{{cit.c_tel}}</span></li>
                 <li><span>거주지  </span> <span>{{cit.c_addr}}</span></li>
-                <li><span>정확도  </span> <span>{{car.accur}}</span></li>
+                <li><span>정확도  </span> <span>{{car.car_accur}}</span></li>
+
                 {% endfor %}
             {% endfor %}
         </ul>
@@ -96,16 +97,18 @@
         </a>
 
 
-    {% if citizen_list %} <!-- 차가 있을 때만 보류 표시 -->
+     <!-- 차가 있을 때만 보류 표시 -->
         {% for car in car_list %}
             {% for ad in admin %}
+                {% if car.car_check == 0 %}  <!-- 검출이 안됐을 때만 표시 -->
         <a class="delete withhold" href="javascript:void(0)"
         data-uri="{% url 'plate:plate_withhold' car.id ad.a_id %}"> <!-- url 별칭을 활용한 번호 보류 -->
             <button><b>번호판 보류</b></button>
         </a>
+                {% endif %}
             {% endfor %}
         {% endfor %}
-    {% endif %}
+
 
 </main>
 
