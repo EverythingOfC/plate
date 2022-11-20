@@ -16,41 +16,50 @@
 <header>
     <div id="logo"><img src="/static/image/cp949.png"></div>
     <div id="blank">&nbsp;</div>
-    <div id="site_title"><a href="{% url 'plate:index' %}">CP 949</a></div>
-    <div id="login"><a href="#">로그인</a></div>
+    {% if admin %}
+        <div id="site_title"><a href="{% url 'plate:index' admin.a_id %}">CP 949</a></div>
+    {% endif %}
+
+
+    <div id="login"><a href="{% url 'plate:login' %}">로그인</a></div>
 </header>
 <div style="clear:both"></div>
 <main>
     <nav id="nav">
-        <ul>
-            <li style="border-top:2px solid gray;">미처리 건수&emsp;<span
-                    style="color:red"><b>{{ car_list.paginator.count }}</b></span></li>
-            {% for ad in admin %}
-            <li>검출한 건수&emsp;<b>{{ ad.a_de }}</b></li>
-            <li>보류한 건수&emsp;<b>{{ ad.a_wh }}</b></li>
-            <li style="border-bottom:2px solid gray;">총 건수&emsp;&emsp;&nbsp;<span style="color:skyblue"><b>{{ car_list.paginator.count|add:ad.a_de|add:ad.a_wh }}</b></span>
-            </li>
-            {% endfor %}                                                            <!-- 총 개수 -->
+        <ul>{% if admin %} <!-- 유저가 있다면 -->
+            <li style="border-top:2px solid gray;">미처리 건수&emsp;<span style="color:red"><b>{{ car_list.paginator.count|sub:admin.a_de }}</b></span></li>
+            <li>검출한 건수&emsp;<b>{{ admin.a_de }}</b></li>
+            <li>보류한 건수&emsp;<b>{{ admin.a_wh }}</b></li>
+            <li style="border-bottom:2px solid gray;">총 건수&emsp;&emsp;&nbsp; <span style="color:skyblue"><b>{{car_list.paginator.count|add:admin.a_wh}}</b></span></li>
+            {% endif %}                                                            <!-- 총 개수 -->
         </ul>
     </nav><!--//nav-->
 
     <!-- 시민 정보 -->
     <div id="info">
         <ul>
-            <li><span>번호판  </span> <span>14노 8695</span></li>
-            <li><span>차주  </span> <span>서성준</span></li>
-            <li><span>단속횟수  </span> <span> 0회</span></li>
-            <li><span>연락처  </span> <span>010-2583-3226</span></li>
-            <li><span>거주지  </span> <span>서울시 동작구 흑석동</span></li>
-            <li><span>정확도  </span> <span>0.98</span></li>
+            {% if admin %}
+                {% for car in car_list %}
+                    {% for cit in citizen_list %}
+                        {% if cit.c_num == car.car_num %}  <!-- 시민의 차번호와 일치하는 차량만을 출력한다 -->
+                    <li><span>번호판  </span> <span>{{ cit.c_num }}</span></li>
+                    <li><span>차주  </span> <span>{{ cit.c_name}}</span></li>
+                    <li><span>단속횟수  </span> <span>{{cit.c_count}}</span></li>
+                    <li><span>연락처  </span> <span>{{cit.c_tel}}</span></li>
+                    <li><span>거주지  </span> <span>{{cit.c_addr}}</span></li>
+                    <li><span>정확도  </span> <span>{{car.car_accur}}</span></li>
+                            {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
         </ul>
     </div><!--//info-->
 
-    <div id="photo"> <!-- 차량 정보 -->
+    <div id="photo"> <!-- 시민의 차량 이미지 -->
         {% if car_list %}
-        {% for car in car_list %}
+            {% for car in car_list %}
         <div class="img"><img src="{{ car.car_image.url }}"></div> <!-- 이미지 -->
-        {% endfor %}
+            {% endfor %}
         {% endif %}
         <!-- 페이징 처리 부분 -->
         <div id="photo_control">
@@ -66,16 +75,20 @@
 
             {% endif %}
 
-            <a style="color:orange; font-size:1.2vw; vertical-align:bottom;"
-               href="?page={{ car_list.start_index}}">{{ car_list.start_index }}</a> <!-- 현재 페이지 번호 -->
+                {% if admin %}
+                <a style="color:orange; font-size:1.2vw; vertical-align:bottom;"
+                   href="{{admin.a_id}}?page={{ car_list.start_index}}">{{ car_list.start_index }}</a> <!-- 현재 페이지 번호 -->
+                &nbsp;<span style="color:skyblue; font-size:1.2vw; vertical-align:bottom;">/</span>&nbsp;
+                {% endif %}
 
-            &nbsp;<span style="color:skyblue; font-size:1.2vw; vertical-align:bottom;">/</span>&nbsp;
+            {% if admin %}
+                <a style="color:orange; font-size:1.2vw; vertical-align:bottom;"
+                   href="{{admin.a_id}}?page={{ car_list.paginator.count }}">{{ car_list.paginator.count }}</a> <!-- 전체 페이지 개수 -->
+            {% endif %}
 
-            <a style="color:orange; font-size:1.2vw; vertical-align:bottom;"
-               href="?page={{ car_list.paginator.count }}">{{ car_list.paginator.count }}</a> <!-- 전체 페이지 개수 -->
-
+            {% if admin %}
             {% if car_list.has_next %}
-            <a href="?page={{car_list.next_page_number}}">
+            <a href="{{admin.a_id}}?page={{car_list.next_page_number}}">
                 <button type="button">></button>
             </a>
             {% else %}
@@ -83,30 +96,31 @@
                 <button type="button">></button>
             </a>
             {% endif %}
+            {% endif %}
 
 
         </div>
-        <!-- 페이징 처리 끝 -->
+          <!-- 페이징 처리 끝 -->
 
     </div><!--//photo-->
-    {% for ad in admin %}
-    <a class="register" href="{% url 'plate:plate_create' %}"> <!-- url 별칭을 활용한 차량 등록 -->
-        <button><b>새 차량등록</b></button>
-    </a>
-    {% endfor %}
 
-    {% if car_list %} <!-- 차가 있을 때만 보류 표시 -->
-    {% for car in car_list %}
-    {% for ad in admin %}
-    {% if car.car_check == 0 %} <!-- 검출된 사진이 아닐 때 (번호판 보류)버튼 표시 -->
-    <a class="delete withhold" href="javascript:void(0)"
-       data-uri="{% url 'plate:plate_withhold' car.id ad.a_id %}"> <!-- url 별칭을 활용한 번호 보류 -->
-        <button><b>번호판 보류</b></button>
-    </a>
+        <a class="register" href="{% url 'plate:plate_create' %}"> <!-- url 별칭을 활용한 차량 등록 -->
+            <button><b>새 차량등록</b></button>
+        </a>
+
+
+     <!-- 차가 있을 때만 보류 표시 -->
+    {% if admin %}
+        {% for car in car_list %}
+            {% if car.car_check == 0 %}  <!-- 검출이 안됐을 때만 표시 -->
+        <a class="delete withhold" href="javascript:void(0)"
+        data-uri="{% url 'plate:plate_withhold' car.id admin.a_id %}"> <!-- url 별칭을 활용한 번호 보류 -->
+            <button><b>번호판 보류</b></button>
+        </a>
+                {% endif %}
+        {% endfor %}
     {% endif %}
-    {% endfor %}
-    {% endfor %}
-    {% endif %}
+
 
 </main>
 
@@ -124,7 +138,6 @@ Array.from(delete_elements).forEach(function(element) {
         };
     });
 });
-
 </script>
 {% endblock %}
 

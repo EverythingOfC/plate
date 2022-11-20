@@ -164,7 +164,7 @@ main #photo #photo_control button{
 
 .register{
     position:absolute;
-    bottom:17%;
+    bottom:15%;
     left:52%;
 }
 .register button,.withhold button{
@@ -177,7 +177,7 @@ main #photo #photo_control button{
 
 .withhold{
     position:absolute;
-    bottom:17%;
+    bottom:15%;
     left:60%;
 }
 
