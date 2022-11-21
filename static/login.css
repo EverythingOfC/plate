@@ -7,13 +7,17 @@ form{
     width:80%;
     position:relative;
     text-align:center;
+    border:2px solid black;
+    padding:20px 0;
+    margin:0 auto;
 }
+
 
 form span{
     width:15%;
     height:3vw;
     line-height:3vw;
-    vertical-align:bottom;
+    vertical-align:center;
     display:inline-block;
     text-align:right;
     padding-right:1vw;
@@ -27,13 +31,13 @@ font-size:1.7vw;
     width:30%;
     height:3vw;
     margin-bottom:1vw;
-    vertical-align:bottom;
+    vertical-align:center;
 }
 
 form #login_btn{
     display:inline-block;
     position:absolute;
-    top:1.3vw;
+    top:1.5vw;
     right:5vw;
     width:8vw;
     height:4vw;
@@ -52,6 +56,7 @@ form #login_btn input[type='submit']{
     transition:all .1s;
     border:1px solid #ccc;
     font-weight:bold;
+    line-height:1.5vw;
 }
 form #login_btn input[type='submit']:hover{
     background-color:#00f;

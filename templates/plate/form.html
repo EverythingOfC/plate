@@ -4,22 +4,11 @@
 <div style="font-family:'LeeSeoyun'!important;" class="container">
 
     <h2 class="my-3 border-bottom pb-2">차량 등록</h2>
-
-    <form method="post" action ="{% url 'plate:start' admin.a_id %}" enctype="multipart/form-data"> <!-- 이미지 저장을 위함 -->
+    {% for ad in admin %}
+    <form method="post" action ="{% url 'plate:start' ad.a_id %}" enctype="multipart/form-data"> <!-- 이미지 저장을 위함 -->
         {% csrf_token %}
         <!-- 오류표시 Start -->
-        {% if form.errors %}
-        <div class="alert alert-danger" role="alert">
-            {% for field in form %}
-            {% if field.errors %}
-            <div>
-                <strong>{{ field.label }}</strong>
-                {{ field.errors }}
-            </div>
-            {% endif %}
-            {% endfor %}
-        </div>
-        {% endif %}
+
         <!-- 오류표시 End -->
         <div id="plate_num" class="mb-3">
             <label for="car_num" class="form-label">번호판 </label>
@@ -32,10 +21,10 @@
             <div id="image_container"></div>
         </div>
         <div id="va">
-        <button style="font-family:'LeeSeoyun'!important;" type="submit" class="btn btn-primary my-2">저장하기</button>
+        <button style="font-family:'LeeSeoyun'!important;" type="submit">저장하기</button>
         </div>
     </form>
-
+    {% endfor %}
 </div>
 
 {% endblock %}
