@@ -22,8 +22,9 @@ from plate import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('plate/', include('plate.urls')),
-    path('<str:a_id>/', views.index, name='index'),    # '/' 에 해당되는 path
+    path('', views.login, name='login'),    # '/' 에 해당되는 path
 ]
+
 
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 
